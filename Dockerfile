@@ -1,11 +1,11 @@
 FROM tomcat:latest
 
 # Install dependencies
-RUN yum update -y && \
-    yum install -y httpd && \
-    yum search wget && \
-    yum install wget -y && \
-    yum install unzip -y
+RUN apt update -y && \
+    apt install -y httpd && \
+    apt search wget && \
+    apt install wget -y && \
+    apt install unzip -y
 
 # change directory
 RUN cd /var/www/html
