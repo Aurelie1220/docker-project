@@ -1,21 +1,21 @@
 FROM tomcat:latest
 
 # Install dependencies
-RUN apt update -y && \
-    apt install -y httpd && \
-    apt search wget && \
-    apt install wget -y && \
-    apt install unzip -y
+RUN apt-get update -y && \
+    apt-get install -y wget unzip
 
-# change directory
-RUN cd /var/www/html
-     && wget https://github.com/azeezsalu/techmax/archive/refs/heads/main.zip
-     &&unzip main.zip
-     && cp -r techmax-main/* /var/www/html/
-     &&rm -rf techmax-main main.zip
+# Change directory to /var/www/html
+WORKDIR /var/www/html
 
-# exposes port 8080 on the container
+# Download and extract the web application
+RUN wget https://github.com/azeezsalu/techmax/archive/refs/heads/main.zip && \
+    unzip main.zip && \
+    cp -r techmax-main/* . && \
+    rm -rf techmax-main main.zip
+
+# Expose port 8080 on the container
 EXPOSE 8080
 
-# set the default application that will start when the container start
-ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+# Set the default application that will start when the container starts
+CMD ["catalina.sh", "run"]
+
